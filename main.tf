@@ -43,7 +43,7 @@ resource "aws_iam_role_policy_attachment" "gcp_wif_attach" {
 
 # 3. Instance profile
 resource "aws_iam_instance_profile" "gcp_wif_instance_profile" {
-  name = "GCPWIFInstanceProfile"
+  name = aws_iam_role.gcp_wif_role.name
   role = aws_iam_role.gcp_wif_role.name
 }
 
