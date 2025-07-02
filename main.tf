@@ -122,10 +122,11 @@ resource "aws_instance" "gcp_wif_instance" {
   user_data = <<-EOF
               #!/bin/bash
               yum install -y curl unzip python3
-              curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-471.0.0-linux-x86_64.tar.gz
-              tar -xf google-cloud-cli-471.0.0-linux-x86_64.tar.gz
-              ./google-cloud-sdk/install.sh --quiet
-              echo 'source ~/google-cloud-sdk/path.bash.inc' >> /home/ec2-user/.bashrc
-              chown ec2-user:ec2-user -R /home/ec2-user/google-cloud-sdk
-              EOF
+              runuser -l ec2-user -c "
+                cd /home/ec2-user
+                curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-529.0.0-linux-x86_64.tar.gz
+                tar -xf google-cloud-cli-529.0.0-linux-x86_64.tar.gz
+                ./google-cloud-sdk/install.sh --quiet
+                echo 'source ~/google-cloud-sdk/path.bash.inc' >> ~/.bashrc
+              "
 }
