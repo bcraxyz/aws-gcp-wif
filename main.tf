@@ -89,15 +89,18 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
 }
 
 # 7. EC2 Instance with gcloud CLI in user_data
 resource "aws_instance" "gcp_wif_instance" {
   ami                    = data.aws_ami.amazon_linux.id
   instance_type          = "t3.micro"
-  subnet_id              = data.aws_subnet_ids.default.ids[0]
+  subnet_id              = data.aws_subnets.default.ids[0]
   vpc_security_group_ids = [aws_security_group.gcp_wif_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.gcp_wif_instance_profile.name
 
