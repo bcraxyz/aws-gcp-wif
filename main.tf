@@ -94,6 +94,11 @@ data "aws_subnets" "default" {
     name   = "vpc-id"
     values = [data.aws_vpc.default.id]
   }
+
+  filter {
+    name   = "availability-zone"
+    values = ["us-east-1a"]
+  }
 }
 
 # 7. EC2 Instance with gcloud CLI in user_data
