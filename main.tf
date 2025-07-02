@@ -109,6 +109,12 @@ resource "aws_instance" "gcp_wif_instance" {
   vpc_security_group_ids = [aws_security_group.gcp_wif_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.gcp_wif_instance_profile.name
 
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 2
+  }
+
   tags = {
     Name = "gcp-wif"
   }
